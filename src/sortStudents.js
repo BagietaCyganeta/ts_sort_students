@@ -21,7 +21,7 @@ var SortType;
 function sortStudents(students, sortBy, order) {
     var studentsCopy = __spreadArray([], students, true);
     var averageGrade = function (grades) {
-        var sum = grades.reduce(function (avg, grade) { return avg + grade; });
+        var sum = grades.reduce(function (avg, grade) { return avg + grade; }, 0);
         return sum / grades.length;
     };
     studentsCopy.sort(function (a, b) {
@@ -37,13 +37,19 @@ function sortStudents(students, sortBy, order) {
                 count = a.age - b.age;
                 break;
             case SortType.Married:
+                // eslint-disable-next-line no-nested-ternary
                 count = (a.married === b.married) ? 0 : (a.married ? 1 : -1);
                 break;
             case SortType.AverageGrade:
                 count = averageGrade(a.grades) - averageGrade(b.grades);
                 break;
+            default:
+                return 0;
         }
-        return order === 'asc' ? count : -count;
+        if (order === 'asc') {
+            return count;
+        }
+        return -count;
     });
     return studentsCopy;
 }
