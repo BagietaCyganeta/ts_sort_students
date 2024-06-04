@@ -43,7 +43,11 @@ export function sortStudents(
         break;
       case SortType.Married:
         // eslint-disable-next-line no-nested-ternary
-        count = (a.married === b.married) ? 0 : (a.married ? 1 : -1);
+        if (a.married === b.married) {
+          count = 0;
+        } else if (a.married) {
+          count = 1;
+        }
         break;
       case SortType.AverageGrade:
         count = averageGrade(a.grades) - averageGrade(b.grades);
